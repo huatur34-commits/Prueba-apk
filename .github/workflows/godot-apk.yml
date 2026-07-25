@@ -23,6 +23,12 @@ jobs:
           mkdir -p ~/.local/share/godot/export_templates/4.2.1.stable/
           unzip -q Godot_v4.2.1-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/4.2.1.stable/
           
+          # Crear un export_presets.cfg básico para que Godot reconozca la exportación Android
+          echo '[preset.0]' > export_presets.cfg
+          echo 'name="Android"' >> export_presets.cfg
+          echo 'platform="Android"' >> export_presets.cfg
+          echo 'runnable=true' >> export_presets.cfg
+          
           mkdir -p build
           ./Godot_v4.2.1-stable_linux.x86_64 --headless --export-release "Android" build/juego.apk
 
@@ -30,4 +36,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: juego-apk
-          path: build/*
+          path: build/juego.apk
