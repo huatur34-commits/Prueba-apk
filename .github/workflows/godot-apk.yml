@@ -6,16 +6,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  export-android:
+  build:
     runs-on: ubuntu-latest
     name: Compilar juego para Android
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
 
-      - name: Compilar con Godot
-        uses: firebelley/godot-export@v5.2.0
+      - name: Instalar Godot y empaquetar
+        run: |
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz
+          
+          unzip -q Godot_v4.2.1-stable_linux.x86_64.zip
+          
+          mkdir -p ~/.local/share/godot/export_templates/
+          unzip -q Godot_v4.2.1-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/
+          mv ~/.local/share/godot/export_templates/templates ~/.local/share/godot/export_templates/4.2.1.stable
+          
+          mkdir -p build
+          ./Godot_v4.2.1-stable_linux.x86_64 --headless --export-pack "Android" build/juego.pck
+          cp project.godot build/
+
+      - name: Subir archivos del juego
+        uses: actions/upload-artifact@v4
         with:
-          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz
-          relative_project_path: ''
+          name: juego-compilado
+          path: build/*
