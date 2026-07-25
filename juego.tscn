@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://c2xt1tknj5eko"]
+
+[ext_resource type="PackedScene" uid="uid://cvhmr1gjib6e" path="res://maps/terreno.tscn" id="1_gvuhb"]
+[ext_resource type="PackedScene" uid="uid://jtir0utt6t2q" path="res://player/character_body_3d.tscn" id="2_n74ki"]
+
+[node name="juego" type="Node3D" unique_id=1397720472]
+
+[node name="terreno" parent="." unique_id=1846338711 instance=ExtResource("1_gvuhb")]
+
+[node name="CharacterBody3D" parent="." unique_id=1130519368 instance=ExtResource("2_n74ki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8047558, 1.2626232)
