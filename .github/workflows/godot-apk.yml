@@ -15,7 +15,6 @@ jobs:
 
       - name: Instalar Godot y compilar APK
         run: |
-          # Descargar Godot estándar y plantillas de exportación
           wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
           wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz
           
@@ -26,3 +25,9 @@ jobs:
           
           mkdir -p build
           ./Godot_v4.2.1-stable_linux.x86_64 --headless --export-release "Android" build/juego.apk
+
+      - name: Subir APK generado
+        uses: actions/upload-artifact@v4
+        with:
+          name: juego-apk
+          path: build/juego.apk
