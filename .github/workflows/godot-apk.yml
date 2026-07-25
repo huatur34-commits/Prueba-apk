@@ -15,18 +15,7 @@ jobs:
 
       - name: Instalar Godot y compilar APK
         run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
-          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz
-          
-          unzip -q Godot_v4.2.1-stable_linux.x86_64.zip
-          
-          mkdir -p ~/.local/share/godot/export_templates/
-          unzip -q Godot_v4.2.1-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/
-          mv ~/.local/share/godot/export_templates/templates ~/.local/share/godot/export_templates/4.2.1.stable
-          
-          # Eliminar archivo viejo y crear uno nuevo limpio con todas las propiedades requeridas
-          rm -f export_presets.cfg
-          
+          # Crear el archivo export_presets.cfg primero en la raíz del proyecto
           cat << EOT > export_presets.cfg
           [preset.0]
           name="Android"
@@ -46,6 +35,15 @@ jobs:
           package/signed=false
           application/package_name="org.huatur34.pruebaapk"
           EOT
+
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_linux.x86_64.zip
+          wget -q https://github.com/godotengine/godot/releases/download/4.2.1-stable/Godot_v4.2.1-stable_export_templates.tpz
+          
+          unzip -q Godot_v4.2.1-stable_linux.x86_64.zip
+          
+          mkdir -p ~/.local/share/godot/export_templates/
+          unzip -q Godot_v4.2.1-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/
+          mv ~/.local/share/godot/export_templates/templates ~/.local/share/godot/export_templates/4.2.1.stable
           
           mkdir -p build
           ./Godot_v4.2.1-stable_linux.x86_64 --headless --export-release "Android" build/juego.apk
