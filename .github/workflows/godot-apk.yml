@@ -24,16 +24,28 @@ jobs:
           unzip -q Godot_v4.2.1-stable_export_templates.tpz -d ~/.local/share/godot/export_templates/
           mv ~/.local/share/godot/export_templates/templates ~/.local/share/godot/export_templates/4.2.1.stable
           
-          # Crear archivo export_presets.cfg completo con nombre de paquete
-          echo '[preset.0]' > export_presets.cfg
-          echo 'name="Android"' >> export_presets.cfg
-          echo 'platform="Android"' >> export_presets.cfg
-          echo 'runnable=true' >> export_presets.cfg
-          echo 'export_filter="all_resources"' >> export_presets.cfg
-          echo 'export_path=""' >> export_presets.cfg
-          echo '[preset.0.options]' >> export_presets.cfg
-          echo 'package/signed=false' >> export_presets.cfg
-          echo 'application/package_name="org.huatur34.pruebaapk"' >> export_presets.cfg
+          # Eliminar archivo viejo y crear uno nuevo limpio con todas las propiedades requeridas
+          rm -f export_presets.cfg
+          
+          cat << EOT > export_presets.cfg
+          [preset.0]
+          name="Android"
+          platform="Android"
+          runnable=true
+          dedicated_server=false
+          custom_features=""
+          export_filter="all_resources"
+          include_filter=""
+          exclude_filter=""
+          export_path=""
+          encryption_include_filters=""
+          encryption_exclude_filters=""
+          enc_password=""
+          
+          [preset.0.options]
+          package/signed=false
+          application/package_name="org.huatur34.pruebaapk"
+          EOT
           
           mkdir -p build
           ./Godot_v4.2.1-stable_linux.x86_64 --headless --export-release "Android" build/juego.apk
